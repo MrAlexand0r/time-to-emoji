@@ -1,0 +1,129 @@
+var clockfaces = [{
+        face: '🕛',
+        time: ['12:00', '00:00']
+    },
+    {
+        face: '🕧',
+        time: ['12:30', '00:30']
+    },
+    {
+        face: '🕐',
+        time: ['13:00', '01:00']
+    },
+    {
+        face: '🕜',
+        time: ['13:30', '01:30']
+    },
+    {
+        face: '🕑',
+        time: ['14:00', '02:00']
+    },
+    {
+        face: '🕝',
+        time: ['14:30', '02:30']
+    },
+    {
+        face: '🕒',
+        time: ['15:00', '03:00']
+    },
+    {
+        face: '🕞',
+        time: ['15:30', '03:30']
+    },
+    {
+        face: '🕓',
+        time: ['16:00', '04:00']
+    },
+    {
+        face: '🕟',
+        time: ['16:30', '04:30']
+    },
+    {
+        face: '🕔',
+        time: ['17:00', '07:00']
+    },
+    {
+        face: '🕠',
+        time: ['17:30', '05:30']
+    },
+    {
+        face: '🕕',
+        time: ['18:00', '06:00']
+    },
+    {
+        face: '🕡',
+        time: ['18:30', '06:30']
+    },
+    {
+        face: '🕖',
+        time: ['19:00', '07:00']
+    },
+    {
+        face: '🕢',
+        time: ['19:30', '07:30']
+    },
+    {
+        face: '🕗',
+        time: ['20:00', '08:00']
+    },
+    {
+        face: '🕣',
+        time: ['20:30', '08:30']
+    },
+    {
+        face: '🕘',
+        time: ['21:00', '09:00']
+    },
+    {
+        face: '🕤',
+        time: ['21:30', '09:30']
+    },
+    {
+        face: '🕙',
+        time: ['22:00', '10:00']
+    },
+    {
+        face: '🕥',
+        time: ['22:30', '10:30']
+    },
+    {
+        face: '🕚',
+        time: ['23:00', '23:00']
+    },
+    {
+        face: '🕦',
+        time: ['23:30', '23:30']
+    }
+]
+
+module.exports = {
+    // Hey you! Can you pull request function overloading? 😭😭😭
+    time2emoji: time2emoji,
+
+    string2emoji: (time) => {
+        return time2emoji(time.split(':')[0], time.split(':')[1]);
+    },
+
+    date2emoji: (date) => {
+        return time2emoji(date.getHours(), date.getMinutes());
+    }
+}
+
+
+Date.prototype.toEmoji = function () {
+    return time2emoji(this.getHours(), this.getMinutes());
+}
+
+function time2emoji(hours, mins) {
+    var hour = parseInt(hours);
+    var minutes = parseInt(mins);
+    return clockfaces.find((element) => {
+        return element.time.find((time) => {
+            var minute = parseInt(time.split(':')[1]);
+            // 🤔🤔🤔 possible to improve?
+            if (((minute == 30 && (minutes >= 15 && minutes <= 45)) || (minute == 0 && (minutes < 15 || minutes > 45))) && hours == time.split(':')[0])
+                return true;
+            else return false;
+        });
+    }).face;
+}
